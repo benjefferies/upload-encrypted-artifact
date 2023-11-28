@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        runs-on: [ubuntu-latest, macos-latest]
+        runs-on: [ubuntu-latest, macos-latest, windows-latest]
       fail-fast: false
 
     runs-on: ${{ matrix.runs-on }}
@@ -98,74 +98,86 @@ jobs:
 
     # Download Artifact #1 and verify the correctness of the content
     - name: 'Download artifact #1'
-      uses: actions/download-artifact@v3
+      uses: benjefferies/download-encrypted-artifact@v1
       with:
         name: 'Artifact-A'
         path: some/new/path
+        kms-key-id: ${{ secrets.KMS_KEY_ID }}
 
     - name: 'Verify Artifact #1'
       run: |
-        file="some/new/path/file1.txt"
-        if test -f "$file"; then
-          echo "$file exists."
-        else
-          echo "$file does not exist."
-          exit 1
-        fi
-      shell: bash
+        $file = "some/new/path/file1.txt"
+        if(!(Test-Path -path $file))
+        {
+            Write-Error "Expected file does not exist"
+        }
+        if(!((Get-Content $file) -ceq "Lorem ipsum dolor sit amet"))
+        {
+            Write-Error "File contents of downloaded artifact are incorrect"
+        }
+      shell: pwsh
 
     # Download Artifact #2 and verify the correctness of the content
     - name: 'Download artifact #2'
-      uses: actions/download-artifact@v3
+      uses: benjefferies/download-encrypted-artifact@v1
       with:
         name: 'artifact'
         path: some/other/path
+        kms-key-id: ${{ secrets.KMS_KEY_ID }}
 
     - name: 'Verify Artifact #2'
       run: |
-        file1="some/other/path/to/dir-1/file1.txt"
-        file2="some/other/path/to/dir-2/file2.txt"
-        if test -f "$file1" && test -f "$file2"; then
-          echo "$file1 and $file2 exist."
-        else
-          echo "$file1 and/or $file2 do not exist."
-          exit 1
-        fi
-      shell: bash
+        $file1 = "some/other/path/to/dir-1/file1.txt"
+        $file2 = "some/other/path/to/dir-2/file2.txt"
+        if(!(Test-Path -path $file1) -or !(Test-Path -path $file2))
+        {
+            Write-Error "Expected files do not exist"
+        }
+        if(!((Get-Content $file1) -ceq "Lorem ipsum dolor sit amet") -or !((Get-Content $file2) -ceq "Hello world from file #2"))
+        {
+            Write-Error "File contents of downloaded artifacts are incorrect"
+        }
+      shell: pwsh
 
     # Download Artifact #3 and verify the correctness of the content
     - name: 'Download artifact #3'
-      uses: actions/download-artifact@v3
+      uses: benjefferies/download-encrypted-artifact@v1
       with:
         name: 'GZip-Artifact'
         path: gzip/artifact/path
+        kms-key-id: ${{ secrets.KMS_KEY_ID }}
 
     # Because a directory was used as input during the upload the parent directories, path/to/dir-3/, should not be included in the uploaded artifact
     - name: 'Verify Artifact #3'
       run: |
-        gzipFile="gzip/artifact/path/gzip.txt"
-        if test -f "$gzipFile"; then
-          echo "$gzipFile exists."
-        else
-          echo "$gzipFile does not exist."
-          exit 1
-        fi
-      shell: bash
+        $gzipFile = "gzip/artifact/path/gzip.txt"
+        if(!(Test-Path -path $gzipFile))
+        {
+            Write-Error "Expected file do not exist"
+        }
+        if(!((Get-Content $gzipFile) -ceq "This is a going to be a test for a large enough file that should get compressed with GZip. The @actions/artifact package uses GZip to upload files. This text should have a compression ratio greater than 100% so it should get uploaded using GZip"))
+        {
+            Write-Error "File contents of downloaded artifact is incorrect"
+        }
+      shell: pwsh
 
     - name: 'Download artifact #4'
-      uses: actions/download-artifact@v3
+      uses: benjefferies/download-encrypted-artifact@v1
       with:
         name: 'Multi-Path-Artifact'
         path: multi/artifact
+        kms-key-id: ${{ secrets.KMS_KEY_ID }}
 
     - name: 'Verify Artifact #4'
       run: |
-        file1="multi/artifact/dir-1/file1.txt"
-        file2="multi/artifact/dir-2/file2.txt"
-        if test -f "$file1" && test -f "$file2"; then
-          echo "$file1 and $file2 exist."
-        else
-          echo "$file1 and/or $file2 do not exist."
-          exit 1
-        fi
-      shell: bash
+        $file1 = "multi/artifact/dir-1/file1.txt"
+        $file2 = "multi/artifact/dir-2/file2.txt"
+        if(!(Test-Path -path $file1) -or !(Test-Path -path $file2))
+        {
+            Write-Error "Expected files do not exist"
+        }
+        if(!((Get-Content $file1) -ceq "Lorem ipsum dolor sit amet") -or !((Get-Content $file2) -ceq "Hello world from file #2"))
+        {
+            Write-Error "File contents of downloaded artifacts are incorrect"
+        }
+      shell: pwsh
