@@ -98,11 +98,10 @@ jobs:
 
     # Download Artifact #1 and verify the correctness of the content
     - name: 'Download artifact #1'
-      uses: ./
+      uses: actions/download-artifact@v3
       with:
         name: 'Artifact-A'
         path: some/new/path
-        kms-key-id: ${{ secrets.KMS_KEY_ID }}
 
     - name: 'Verify Artifact #1'
       run: |
