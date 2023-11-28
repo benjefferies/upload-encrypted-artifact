@@ -13,4 +13,4 @@ allowed:
 reviewed:
   npm:
   - fs.realpath
-  - "@aws-crypto/client-node"
+  - "upload-encrypted-artifact.npm.@aws-crypto/client-node"
