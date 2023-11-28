@@ -1,6 +1,6 @@
 # Upload-Artifact v3
 
-This uploads encrypted artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
+This uploads encrypted artifacts using KMS from your workflow allowing you to share data between jobs and store data once a workflow is complete.
 
 See also [download-artifact](https://github.com/benjefferies/download-encrypted-artifact).
 
