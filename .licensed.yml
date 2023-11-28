@@ -13,3 +13,4 @@ allowed:
 reviewed:
   npm:
   - fs.realpath
+  - "@aws-crypto/client-node"

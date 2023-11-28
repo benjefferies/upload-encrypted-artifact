@@ -125,10 +125,10 @@ jobs:
       run: |
         file1="some/other/path/to/dir-1/file1.txt"
         file2="some/other/path/to/dir-2/file2.txt"
-        if test -f "$file" && test -f "$file2"; then
-          echo "$file exists."
+        if test -f "$file1" && test -f "$file2"; then
+          echo "$file1 and $file2 exist."
         else
-          echo "$file does not exist."
+          echo "$file1 and/or $file2 do not exist."
           exit 1
         fi
       shell: bash
@@ -143,11 +143,11 @@ jobs:
     # Because a directory was used as input during the upload the parent directories, path/to/dir-3/, should not be included in the uploaded artifact
     - name: 'Verify Artifact #3'
       run: |
-        $gzipFile="gzip/artifact/path/gzip.txt"
+        gzipFile="gzip/artifact/path/gzip.txt"
         if test -f "$gzipFile"; then
-          echo "$file exists."
+          echo "$gzipFile exists."
         else
-          echo "$file does not exist."
+          echo "$gzipFile does not exist."
           exit 1
         fi
       shell: bash
@@ -163,9 +163,9 @@ jobs:
         file1="multi/artifact/dir-1/file1.txt"
         file2="multi/artifact/dir-2/file2.txt"
         if test -f "$file1" && test -f "$file2"; then
-          echo "$file exists."
+          echo "$file1 and $file2 exist."
         else
-          echo "$file does not exist."
+          echo "$file1 and/or $file2 do not exist."
           exit 1
         fi
       shell: bash
