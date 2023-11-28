@@ -1,5 +1,5 @@
-name: 'Upload a Build Artifact'
-description: 'Upload a build artifact that can be used by subsequent workflow steps'
+name: 'Upload an Encrypted Build Artifact'
+description: 'Upload an encrypted build artifact that can be used by subsequent workflow steps. Supports AWS KMS encryption.'
 author: 'GitHub'
 inputs: 
   name:
