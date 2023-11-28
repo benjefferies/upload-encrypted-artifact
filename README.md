@@ -2,7 +2,7 @@
 
 This uploads encrypted artifacts using KMS from your workflow allowing you to share data between jobs and store data once a workflow is complete.
 
-See also [download-artifact](https://github.com/benjefferies/download-encrypted-artifact).
+See also [download-encrypted-artifact](https://github.com/benjefferies/download-encrypted-artifact).
 
 # Usage
 
@@ -251,7 +251,7 @@ The size of the artifact is denoted in bytes. The displayed artifact size denote
 
 ### Zipped Artifact Downloads
 
-During a workflow run, files are uploaded and downloaded individually using the `upload-artifact` and `download-artifact` actions. However, when a workflow run finishes and an artifact is downloaded from either the UI or through the [download api](https://developer.github.com/v3/actions/artifacts/#download-an-artifact), a zip is dynamically created with all the file contents that were uploaded. There is currently no way to download artifacts after a workflow run finishes in a format other than a zip or to download artifact contents individually. One of the consequences of this limitation is that if a zip is uploaded during a workflow run and then downloaded from the UI, there will be a double zip created.
+During a workflow run, files are uploaded and downloaded individually using the `upload-encrypted-artifact` and `download-encrypted-artifact` actions. However, when a workflow run finishes and an artifact is downloaded from either the UI or through the [download api](https://developer.github.com/v3/actions/artifacts/#download-an-artifact), a zip is dynamically created with all the file contents that were uploaded. There is currently no way to download artifacts after a workflow run finishes in a format other than a zip or to download artifact contents individually. One of the consequences of this limitation is that if a zip is uploaded during a workflow run and then downloaded from the UI, there will be a double zip created.
 
 ### Permission Loss
 
