@@ -37931,6 +37931,7 @@ function encryptFile(filePath, kmsKeyId) {
             (0, fs_1.writeFileSync)(filePath, encrypted);
             (0, fs_1.writeFileSync)(`${filePath}.key`, CiphertextBlob);
             console.log('File encrypted successfully');
+            return [filePath, `${filePath}.key`];
         }
         catch (error) {
             console.error('Error encrypting file:', error);
@@ -38248,8 +38249,10 @@ function run() {
                 if (searchResult.filesToUpload.length > 10000) {
                     core.warning(`There are over 10,000 files in this artifact, consider creating an archive before upload to improve the upload performance.`);
                 }
+                const filesToUpload = [];
                 for (const file of searchResult.filesToUpload) {
-                    yield (0, encrypt_1.encryptFile)(file, inputs.kmsKeyId);
+                    const files = yield (0, encrypt_1.encryptFile)(file, inputs.kmsKeyId);
+                    filesToUpload.push(files[0], files[1]);
                 }
                 const artifactClient = (0, artifact_1.create)();
                 const options = {
@@ -38258,7 +38261,7 @@ function run() {
                 if (inputs.retentionDays) {
                     options.retentionDays = inputs.retentionDays;
                 }
-                const uploadResponse = yield artifactClient.uploadArtifact(inputs.artifactName, searchResult.filesToUpload, searchResult.rootDirectory, options);
+                const uploadResponse = yield artifactClient.uploadArtifact(inputs.artifactName, filesToUpload, searchResult.rootDirectory, options);
                 if (uploadResponse.failedItems.length > 0) {
                     core.setFailed(`An error was encountered when uploading ${uploadResponse.artifactName}. There were ${uploadResponse.failedItems.length} items that failed to upload.`);
                 }
