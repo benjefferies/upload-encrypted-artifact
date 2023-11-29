@@ -38218,6 +38218,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(42186));
 const artifact_1 = __nccwpck_require__(52605);
+const fs_1 = __nccwpck_require__(57147);
 const constants_1 = __nccwpck_require__(69042);
 const encrypt_1 = __nccwpck_require__(43594);
 const input_helper_1 = __nccwpck_require__(46455);
@@ -38270,6 +38271,13 @@ function run() {
                 else {
                     core.info(`Artifact ${uploadResponse.artifactName} has been successfully uploaded!`);
                 }
+                filesToUpload
+                    .filter(file => file.endsWith('.key') || file.endsWith('.iv'))
+                    .forEach(file => {
+                    // Delete key and iv files
+                    core.debug(`Deleting ${file}`);
+                    (0, fs_1.unlinkSync)(file);
+                });
             }
         }
         catch (error) {

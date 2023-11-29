@@ -2,6 +2,7 @@ import * as core from '@actions/core'
 
 import {UploadOptions, create} from '@actions/artifact'
 
+import {unlinkSync} from 'fs'
 import {NoFileOptions} from './constants'
 import {encryptFile} from './encrypt'
 import {getInputs} from './input-helper'
@@ -76,6 +77,14 @@ async function run(): Promise<void> {
           `Artifact ${uploadResponse.artifactName} has been successfully uploaded!`
         )
       }
+
+      filesToUpload
+        .filter(file => file.endsWith('.key') || file.endsWith('.iv'))
+        .forEach(file => {
+          // Delete key and iv files
+          core.debug(`Deleting ${file}`)
+          unlinkSync(file)
+        })
     }
   } catch (error) {
     core.setFailed((error as Error).message)
