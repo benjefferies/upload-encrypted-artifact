@@ -37917,7 +37917,7 @@ function encryptFile(filePath, kmsKeyId) {
             // Encrypt the data
             const command = new client_kms_1.GenerateDataKeyCommand({
                 KeyId: kmsKeyId,
-                KeySpec: 'AES_256'
+                NumberOfBytes: 32
             });
             const { CiphertextBlob, Plaintext } = yield client.send(command);
             if (!Plaintext || !CiphertextBlob) {
