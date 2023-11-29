@@ -37923,13 +37923,15 @@ function encryptFile(filePath, kmsKeyId) {
             if (!Plaintext || !CiphertextBlob) {
                 throw new Error('No encryption key returned from KMS');
             }
+            const iv = crypto_1.default.randomBytes(16);
             // Use the plaintext encryption key to encrypt the file
-            const cipher = crypto_1.default.createCipheriv('aes-256-cbc', Plaintext, crypto_1.default.randomBytes(16));
+            const cipher = crypto_1.default.createCipheriv('aes-256-gcm', Plaintext, iv);
             let encrypted = cipher.update(fileBuffer);
             encrypted = Buffer.concat([encrypted, cipher.final()]);
             // Overwrite file with encrypted data
             (0, fs_1.writeFileSync)(filePath, encrypted);
             (0, fs_1.writeFileSync)(`${filePath}.key`, CiphertextBlob);
+            (0, fs_1.writeFileSync)(`${filePath}.iv`, iv);
             console.log('File encrypted successfully');
             return [filePath, `${filePath}.key`];
         }
