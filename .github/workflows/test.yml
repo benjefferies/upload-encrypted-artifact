@@ -52,7 +52,7 @@ jobs:
     - name: Test
       run: npm run test
 
-    # Test end-to-end by uploading two artifacts and then downloading them
+      # Test end-to-end by uploading two artifacts and then downloading them
     - name: Create artifact files
       run: |
         mkdir -p path/to/dir-1
@@ -69,6 +69,11 @@ jobs:
         name: 'Artifact-A'
         path: path/to/dir-1/file1.txt
         kms-key-id: ${{ secrets.KMS_KEY_ID }}
+    - name: Reset files after encryption
+      run: |
+        echo "Lorem ipsum dolor sit amet" > path/to/dir-1/file1.txt
+        echo "Hello world from file #2" > path/to/dir-2/file2.txt
+        echo "This is a going to be a test for a large enough file that should get compressed with GZip. The @actions/artifact package uses GZip to upload files. This text should have a compression ratio greater than 100% so it should get uploaded using GZip" > path/to/dir-3/gzip.txt
 
     # Upload using a wildcard pattern, name should default to 'artifact' if not provided
     - name: 'Upload artifact #2'
@@ -76,7 +81,12 @@ jobs:
       with:
         path: path/**/dir*/
         kms-key-id: ${{ secrets.KMS_KEY_ID }}
-
+    - name: Reset files after encryption
+      run: |
+        echo "Lorem ipsum dolor sit amet" > path/to/dir-1/file1.txt
+        echo "Hello world from file #2" > path/to/dir-2/file2.txt
+        echo "This is a going to be a test for a large enough file that should get compressed with GZip. The @actions/artifact package uses GZip to upload files. This text should have a compression ratio greater than 100% so it should get uploaded using GZip" > path/to/dir-3/gzip.txt
+        
     # Upload a directory that contains a file that will be uploaded with GZip
     - name: 'Upload artifact #3'
       uses: ./
@@ -84,7 +94,12 @@ jobs:
         name: 'GZip-Artifact'
         path: path/to/dir-3/
         kms-key-id: ${{ secrets.KMS_KEY_ID }}
-
+    - name: Reset files after encryption
+      run: |
+        echo "Lorem ipsum dolor sit amet" > path/to/dir-1/file1.txt
+        echo "Hello world from file #2" > path/to/dir-2/file2.txt
+        echo "This is a going to be a test for a large enough file that should get compressed with GZip. The @actions/artifact package uses GZip to upload files. This text should have a compression ratio greater than 100% so it should get uploaded using GZip" > path/to/dir-3/gzip.txt
+       
     # Upload a directory that contains a file that will be uploaded with GZip
     - name: 'Upload artifact #4'
       uses: ./
@@ -95,7 +110,12 @@ jobs:
           path/to/dir-[23]/*
           !path/to/dir-3/*.txt
         kms-key-id: ${{ secrets.KMS_KEY_ID }}
-
+    - name: Reset files after encryption
+      run: |
+        echo "Lorem ipsum dolor sit amet" > path/to/dir-1/file1.txt
+        echo "Hello world from file #2" > path/to/dir-2/file2.txt
+        echo "This is a going to be a test for a large enough file that should get compressed with GZip. The @actions/artifact package uses GZip to upload files. This text should have a compression ratio greater than 100% so it should get uploaded using GZip" > path/to/dir-3/gzip.txt
+       
     # Download Artifact #1 and verify the correctness of the content
     - name: 'Download artifact #1'
       uses: benjefferies/download-encrypted-artifact@main
