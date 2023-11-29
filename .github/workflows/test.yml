@@ -68,12 +68,14 @@ jobs:
       with:
         name: 'Artifact-A'
         path: path/to/dir-1/file1.txt
+        kms-key-id: ${{ secrets.KMS_KEY_ID }}
 
     # Upload using a wildcard pattern, name should default to 'artifact' if not provided
     - name: 'Upload artifact #2'
       uses: ./
       with:
         path: path/**/dir*/
+        kms-key-id: ${{ secrets.KMS_KEY_ID }}
 
     # Upload a directory that contains a file that will be uploaded with GZip
     - name: 'Upload artifact #3'
@@ -81,6 +83,7 @@ jobs:
       with:
         name: 'GZip-Artifact'
         path: path/to/dir-3/
+        kms-key-id: ${{ secrets.KMS_KEY_ID }}
 
     # Upload a directory that contains a file that will be uploaded with GZip
     - name: 'Upload artifact #4'
@@ -91,6 +94,7 @@ jobs:
           path/to/dir-1/*
           path/to/dir-[23]/*
           !path/to/dir-3/*.txt
+        kms-key-id: ${{ secrets.KMS_KEY_ID }}
 
     # Download Artifact #1 and verify the correctness of the content
     - name: 'Download artifact #1'
