@@ -98,7 +98,7 @@ jobs:
 
     # Download Artifact #1 and verify the correctness of the content
     - name: 'Download artifact #1'
-      uses: benjefferies/download-encrypted-artifact@v1
+      uses: benjefferies/download-encrypted-artifact@main
       with:
         name: 'Artifact-A'
         path: some/new/path
@@ -119,7 +119,7 @@ jobs:
 
     # Download Artifact #2 and verify the correctness of the content
     - name: 'Download artifact #2'
-      uses: benjefferies/download-encrypted-artifact@v1
+      uses: benjefferies/download-encrypted-artifact@main
       with:
         name: 'artifact'
         path: some/other/path
@@ -141,7 +141,7 @@ jobs:
 
     # Download Artifact #3 and verify the correctness of the content
     - name: 'Download artifact #3'
-      uses: benjefferies/download-encrypted-artifact@v1
+      uses: benjefferies/download-encrypted-artifact@main
       with:
         name: 'GZip-Artifact'
         path: gzip/artifact/path
@@ -162,7 +162,7 @@ jobs:
       shell: pwsh
 
     - name: 'Download artifact #4'
-      uses: benjefferies/download-encrypted-artifact@v1
+      uses: benjefferies/download-encrypted-artifact@main
       with:
         name: 'Multi-Path-Artifact'
         path: multi/artifact
