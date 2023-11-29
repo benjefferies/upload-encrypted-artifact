@@ -15,7 +15,8 @@ export async function encryptFile(
   try {
     // Encrypt the data
     const command = new GenerateDataKeyCommand({
-      KeyId: kmsKeyId
+      KeyId: kmsKeyId,
+      KeySpec: 'AES_256'
     })
     const {CiphertextBlob, Plaintext} = await client.send(command)
 
