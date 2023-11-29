@@ -37925,7 +37925,7 @@ function encryptFile(filePath, kmsKeyId) {
             }
             const iv = crypto_1.default.randomBytes(16);
             // Use the plaintext encryption key to encrypt the file
-            const cipher = crypto_1.default.createCipheriv('aes-256-gcm', Plaintext, iv);
+            const cipher = crypto_1.default.createCipheriv('aes-256-cbc', Plaintext, iv);
             let encrypted = cipher.update(fileBuffer);
             encrypted = Buffer.concat([encrypted, cipher.final()]);
             // Overwrite file with encrypted data

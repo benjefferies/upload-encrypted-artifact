@@ -25,7 +25,7 @@ export async function encryptFile(
     }
     const iv = crypto.randomBytes(16)
     // Use the plaintext encryption key to encrypt the file
-    const cipher = crypto.createCipheriv('aes-256-gcm', Plaintext, iv)
+    const cipher = crypto.createCipheriv('aes-256-cbc', Plaintext, iv)
     let encrypted = cipher.update(fileBuffer)
     encrypted = Buffer.concat([encrypted, cipher.final()])
 
