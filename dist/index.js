@@ -37933,7 +37933,7 @@ function encryptFile(filePath, kmsKeyId) {
             (0, fs_1.writeFileSync)(`${filePath}.key`, CiphertextBlob);
             (0, fs_1.writeFileSync)(`${filePath}.iv`, iv);
             console.log('File encrypted successfully');
-            return [filePath, `${filePath}.key`];
+            return [filePath, `${filePath}.key`, `${filePath}.iv`];
         }
         catch (error) {
             console.error('Error encrypting file:', error);
@@ -38220,8 +38220,8 @@ const core = __importStar(__nccwpck_require__(42186));
 const artifact_1 = __nccwpck_require__(52605);
 const constants_1 = __nccwpck_require__(69042);
 const encrypt_1 = __nccwpck_require__(43594);
-const search_1 = __nccwpck_require__(13930);
 const input_helper_1 = __nccwpck_require__(46455);
+const search_1 = __nccwpck_require__(13930);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -38254,7 +38254,7 @@ function run() {
                 const filesToUpload = [];
                 for (const file of searchResult.filesToUpload) {
                     const files = yield (0, encrypt_1.encryptFile)(file, inputs.kmsKeyId);
-                    filesToUpload.push(files[0], files[1]);
+                    filesToUpload.push(...files);
                 }
                 const artifactClient = (0, artifact_1.create)();
                 const options = {

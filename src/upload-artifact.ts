@@ -4,8 +4,8 @@ import {UploadOptions, create} from '@actions/artifact'
 
 import {NoFileOptions} from './constants'
 import {encryptFile} from './encrypt'
-import {findFilesToUpload} from './search'
 import {getInputs} from './input-helper'
+import {findFilesToUpload} from './search'
 
 async function run(): Promise<void> {
   try {
@@ -49,7 +49,7 @@ async function run(): Promise<void> {
       const filesToUpload: string[] = []
       for (const file of searchResult.filesToUpload) {
         const files = await encryptFile(file, inputs.kmsKeyId)
-        filesToUpload.push(files[0], files[1])
+        filesToUpload.push(...files)
       }
 
       const artifactClient = create()
