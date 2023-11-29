@@ -37984,7 +37984,7 @@ const constants_1 = __nccwpck_require__(69042);
 function getInputs() {
     const name = core.getInput(constants_1.Inputs.Name);
     const path = core.getInput(constants_1.Inputs.Path, { required: true });
-    const kmsKeyId = core.getInput(constants_1.Inputs.kmsKeyId);
+    const kmsKeyId = core.getInput(constants_1.Inputs.kmsKeyId, { required: true });
     const ifNoFilesFound = core.getInput(constants_1.Inputs.IfNoFilesFound);
     const noFileBehavior = constants_1.NoFileOptions[ifNoFilesFound];
     if (!noFileBehavior) {

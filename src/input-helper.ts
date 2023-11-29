@@ -10,7 +10,7 @@ import {UploadInputs} from './upload-inputs'
 export function getInputs(): UploadInputs {
   const name = core.getInput(Inputs.Name)
   const path = core.getInput(Inputs.Path, {required: true})
-  const kmsKeyId = core.getInput(Inputs.kmsKeyId)
+  const kmsKeyId = core.getInput(Inputs.kmsKeyId, {required: true})
 
   const ifNoFilesFound = core.getInput(Inputs.IfNoFilesFound)
   const noFileBehavior: NoFileOptions = NoFileOptions[ifNoFilesFound]
