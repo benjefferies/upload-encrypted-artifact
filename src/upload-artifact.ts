@@ -46,8 +46,10 @@ async function run(): Promise<void> {
         )
       }
 
+      const filesToUpload: string[] = []
       for (const file of searchResult.filesToUpload) {
-        await encryptFile(file, inputs.kmsKeyId)
+        const files = await encryptFile(file, inputs.kmsKeyId)
+        filesToUpload.push(files[0], files[1])
       }
 
       const artifactClient = create()
@@ -60,7 +62,7 @@ async function run(): Promise<void> {
 
       const uploadResponse = await artifactClient.uploadArtifact(
         inputs.artifactName,
-        searchResult.filesToUpload,
+        filesToUpload,
         searchResult.rootDirectory,
         options
       )

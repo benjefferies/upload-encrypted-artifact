@@ -8,7 +8,7 @@ const client = new KMSClient()
 export async function encryptFile(
   filePath: string,
   kmsKeyId: string
-): Promise<void> {
+): Promise<[string, string]> {
   // Read the file content
   const fileBuffer = readFileSync(filePath)
 
@@ -36,6 +36,7 @@ export async function encryptFile(
     writeFileSync(filePath, encrypted)
     writeFileSync(`${filePath}.key`, CiphertextBlob)
     console.log('File encrypted successfully')
+    return [filePath, `${filePath}.key`]
   } catch (error) {
     console.error('Error encrypting file:', error)
     throw error
